@@ -1,0 +1,26 @@
+project.md
+ui.md
+.claude
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Config files with sensitive data
+# js/config.js  # Uncomment this if you want to exclude your API key
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Build outputs
+dist/
+build/
