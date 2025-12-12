@@ -147,42 +147,42 @@
     <div class="max-w-6xl mx-auto px-6 py-8">
         <!-- Input Section -->
         <div id="inputSection" class="mb-8 glass rounded-xl p-6 shadow-xl hover:shadow-2xl transition-shadow duration-300">
-            <div id="inputExpanded">
-                <h2 class="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-600 transition-all duration-200 flex items-center group" id="inputTitle">
-                    <span class="flex items-center">
-                        <span class="mr-2 text-blue-600">📄</span>
-                        Process XML Input
-                    </span>
-                    <svg class="w-5 h-5 ml-2 transform transition-transform group-hover:text-blue-600" id="inputChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </h2>
-                <div id="inputContent">
-                <textarea 
-                    id="xmlInput" 
-                    class="w-full h-52 p-4 border-2 border-slate-200 rounded-lg font-['JetBrains_Mono'] text-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 hover:bg-white"
-                    placeholder="Paste your Boomi Process XML here..."
-                ></textarea>
-                <div class="mt-4 flex justify-end">
-                    <button 
-                        id="analyzeBtn" 
-                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:transform-none disabled:shadow-none"
-                        disabled
-                    >
-                        <span class="flex items-center">
-                            <span class="mr-2">🚀</span>
-                            Run Analysis
-                        </span>
-                    </button>
-                </div>
-                </div>
-            </div>
-            
-            <!-- Collapsed state (hidden by default) -->
-            <div id="inputCollapsed" class="hidden bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
-                <span class="text-sm text-green-700 font-medium">
-                    ✓ XML loaded (<span id="charCount">0</span> characters)
+            <h2 class="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-all duration-200 flex items-center justify-between group pb-4 border-b border-slate-200/50" id="inputTitle">
+                <span class="flex items-center">
+                    <span class="mr-2 text-blue-600">📄</span>
+                    Process XML Input
                 </span>
+                <svg class="w-5 h-5 transform transition-transform group-hover:text-blue-600" id="inputChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </h2>
+            <div id="inputContent" class="mt-4 transition-all duration-300 ease-in-out">
+                <div id="inputExpanded">
+                    <textarea 
+                        id="xmlInput" 
+                        class="w-full h-52 p-4 border-2 border-slate-200 rounded-lg font-['JetBrains_Mono'] text-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 hover:bg-white"
+                        placeholder="Paste your Boomi Process XML here..."
+                    ></textarea>
+                    <div class="mt-4 flex justify-end">
+                        <button 
+                            id="analyzeBtn" 
+                            class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:transform-none disabled:shadow-none"
+                            disabled
+                        >
+                            <span class="flex items-center">
+                                <span class="mr-2">🚀</span>
+                                Run Analysis
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Collapsed state (hidden by default) -->
+                <div id="inputCollapsed" class="hidden bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
+                    <span class="text-sm text-green-700 font-medium">
+                        ✓ XML loaded (<span id="charCount">0</span> characters)
+                    </span>
+                </div>
             </div>
         </div>
         
@@ -249,7 +249,7 @@
                         </button>
                     </div>
                 </div>
-                <div id="reportContent" class="p-6 report">
+                <div id="reportContent" class="p-6 report transition-all duration-300 ease-in-out">
                     <!-- Generated report content will be inserted here -->
                 </div>
             </div>
@@ -302,13 +302,7 @@
             inputExpanded.classList.add('hidden');
             inputCollapsed.classList.remove('hidden');
             charCount.textContent = currentXML.length;
-            inputContent.classList.remove('hidden');
-            inputChevron.style.transform = 'rotate(0deg)';
-        }
-        
-        function expandInput() {
-            inputExpanded.classList.remove('hidden');
-            inputCollapsed.classList.add('hidden');
+            // Keep inputContent visible so title remains visible
         }
         
         function showState(state) {
@@ -441,13 +435,29 @@
         }
         
         function toggleInputSection() {
-            const isVisible = !inputContent.classList.contains('hidden');
-            if (isVisible) {
-                inputContent.classList.add('hidden');
-                inputChevron.style.transform = 'rotate(-90deg)';
+            // Check if we're in collapsed mode (after analysis)
+            const isCollapsed = !inputCollapsed.classList.contains('hidden');
+            
+            if (isCollapsed) {
+                // We're in collapsed mode, toggle visibility of the collapsed content
+                const isContentVisible = !inputContent.classList.contains('hidden');
+                if (isContentVisible) {
+                    inputContent.classList.add('hidden');
+                    inputChevron.style.transform = 'rotate(-90deg)';
+                } else {
+                    inputContent.classList.remove('hidden');
+                    inputChevron.style.transform = 'rotate(0deg)';
+                }
             } else {
-                inputContent.classList.remove('hidden');
-                inputChevron.style.transform = 'rotate(0deg)';
+                // We're in expanded mode, toggle visibility of the input content
+                const isContentVisible = !inputContent.classList.contains('hidden');
+                if (isContentVisible) {
+                    inputContent.classList.add('hidden');
+                    inputChevron.style.transform = 'rotate(-90deg)';
+                } else {
+                    inputContent.classList.remove('hidden');
+                    inputChevron.style.transform = 'rotate(0deg)';
+                }
             }
         }
         
