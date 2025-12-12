@@ -18,6 +18,21 @@
     <script src="js/config.js"></script>
     
     <style>
+        /* Background pattern */
+        body {
+            background-color: #fafbfc;
+            background-image: 
+                radial-gradient(at 47% 33%, hsl(220.59, 100%, 97%) 0, transparent 59%),
+                radial-gradient(at 82% 65%, hsl(218, 100%, 97%) 0, transparent 55%);
+        }
+        
+        /* Glass morphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
         /* Custom styles for report rendering */
         .report h2 {
             font-size: 1.25rem;
@@ -26,25 +41,40 @@
             margin-bottom: 1rem;
             border-left: 4px solid #2563eb;
             padding-left: 1rem;
+            background: linear-gradient(90deg, #eff6ff 0%, transparent 100%);
+            border-radius: 0 0.5rem 0.5rem 0;
         }
         
         .report table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin: 1.5rem 0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
         
         .report th {
-            background: #f1f5f9;
+            background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
             font-weight: 600;
             text-align: left;
             padding: 12px 16px;
-            border: 1px solid #e2e8f0;
+            border-bottom: 2px solid #e2e8f0;
         }
         
         .report td {
             padding: 12px 16px;
-            border: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+        }
+        
+        .report tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .report tr:hover td {
+            background: #f8fafc;
         }
         
         .report h3 {
@@ -105,104 +135,117 @@
         }
     </style>
 </head>
-<body class="bg-white text-slate-900 font-['Inter']">
+<body class="text-slate-900 font-['Inter'] min-h-screen">
     <!-- Header -->
-    <header class="border-b border-slate-200 h-16 flex items-center justify-between px-6">
-        <h1 id="appTitle" class="text-2xl font-semibold">Boomi Insight</h1>
-        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium px-3 py-1 rounded-full">
-            Hackathon 2025
+    <header class="glass border-b border-slate-200/50 h-16 flex items-center justify-between px-6 shadow-sm">
+        <h1 id="appTitle" class="text-2xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Boomi Insight</h1>
+        <span class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium px-4 py-1.5 rounded-full shadow-lg shadow-indigo-500/25 animate-pulse">
+            🚀 Hackathon 2025
         </span>
     </header>
     
     <div class="max-w-6xl mx-auto px-6 py-8">
         <!-- Input Section -->
-        <div id="inputSection" class="mb-8">
+        <div id="inputSection" class="mb-8 glass rounded-xl p-6 shadow-xl hover:shadow-2xl transition-shadow duration-300">
             <div id="inputExpanded">
-                <h2 class="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-600 transition-colors flex items-center" id="inputTitle">
-                    <span>Process XML Input</span>
-                    <svg class="w-5 h-5 ml-2 transform transition-transform" id="inputChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <h2 class="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-600 transition-all duration-200 flex items-center group" id="inputTitle">
+                    <span class="flex items-center">
+                        <span class="mr-2 text-blue-600">📄</span>
+                        Process XML Input
+                    </span>
+                    <svg class="w-5 h-5 ml-2 transform transition-transform group-hover:text-blue-600" id="inputChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </h2>
                 <div id="inputContent">
                 <textarea 
                     id="xmlInput" 
-                    class="w-full h-52 p-4 border border-slate-300 rounded-lg font-['JetBrains_Mono'] text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    class="w-full h-52 p-4 border-2 border-slate-200 rounded-lg font-['JetBrains_Mono'] text-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200 bg-white/50 hover:bg-white"
                     placeholder="Paste your Boomi Process XML here..."
                 ></textarea>
                 <div class="mt-4 flex justify-end">
                     <button 
                         id="analyzeBtn" 
-                        class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors"
+                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:transform-none disabled:shadow-none"
                         disabled
                     >
-                        Run Analysis
+                        <span class="flex items-center">
+                            <span class="mr-2">🚀</span>
+                            Run Analysis
+                        </span>
                     </button>
                 </div>
                 </div>
             </div>
             
             <!-- Collapsed state (hidden by default) -->
-            <div id="inputCollapsed" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-3 flex items-center justify-between">
-                <span class="text-sm text-slate-600">
+            <div id="inputCollapsed" class="hidden bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
+                <span class="text-sm text-green-700 font-medium">
                     ✓ XML loaded (<span id="charCount">0</span> characters)
                 </span>
-                <button id="expandBtn" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
-                    ▼ Expand
-                </button>
             </div>
         </div>
         
         <!-- Report Section -->
-        <div id="reportSection" class="bg-slate-50 border border-slate-200 rounded-lg min-h-[400px]">
+        <div id="reportSection" class="glass rounded-xl shadow-xl min-h-[400px] overflow-hidden">
             <!-- Empty State -->
             <div id="emptyState" class="flex flex-col items-center justify-center py-20 px-6">
-                <svg class="w-16 h-16 text-slate-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <h3 class="text-lg font-medium text-slate-700 mb-2">No Analysis Yet</h3>
-                <p class="text-slate-500 text-center">Paste your Boomi XML above and click Run Analysis</p>
+                <div class="p-6 bg-gradient-to-br from-slate-50 to-blue-50 rounded-full mb-6 animate-pulse">
+                    <svg class="w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">No Analysis Yet</h3>
+                <p class="text-slate-600 text-center">Paste your Boomi XML above and click Run Analysis to get started!</p>
             </div>
             
             <!-- Loading State (hidden by default) -->
             <div id="loadingState" class="hidden flex flex-col items-center justify-center py-20 px-6">
-                <svg class="w-8 h-8 text-blue-600 mb-4 spinner" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                <p class="text-slate-600">Analyzing your process...</p>
+                <div class="relative">
+                    <div class="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
+                    <div class="w-20 h-20 border-4 border-blue-600 rounded-full border-t-transparent animate-spin absolute top-0 left-0"></div>
+                </div>
+                <p class="text-slate-600 mt-6 text-lg animate-pulse">Analyzing your process...</p>
             </div>
             
             <!-- Error State (hidden by default) -->
             <div id="errorState" class="hidden p-6">
-                <div class="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
-                    <svg class="w-5 h-5 text-red-600 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <div>
-                        <h4 class="text-red-800 font-medium mb-1">Analysis Failed</h4>
-                        <p id="errorMessage" class="text-red-600 text-sm mb-3">An error occurred during analysis.</p>
-                        <button id="retryBtn" class="text-sm text-red-600 hover:text-red-700 font-medium">
-                            Try Again
-                        </button>
+                <div class="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-200 rounded-lg p-6 shadow-lg">
+                    <div class="flex items-start">
+                        <div class="p-2 bg-red-100 rounded-full mr-4">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-red-800 font-semibold mb-1 text-lg">Analysis Failed</h4>
+                            <p id="errorMessage" class="text-red-600 mb-4">An error occurred during analysis.</p>
+                            <button id="retryBtn" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium">
+                                🔄 Try Again
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <!-- Report Output (hidden by default) -->
             <div id="reportOutput" class="hidden">
-                <div class="p-6 flex items-center justify-between border-b border-slate-200 no-print">
-                    <h2 class="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors flex items-center" id="reportTitle">
-                        <span>Analysis Report</span>
-                        <svg class="w-5 h-5 ml-2 transform transition-transform" id="reportChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-6 flex items-center justify-between border-b border-slate-200/50 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 no-print">
+                    <h2 class="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-all duration-200 flex items-center group" id="reportTitle">
+                        <span class="flex items-center">
+                            <span class="mr-2 text-blue-600">📊</span>
+                            Analysis Report
+                        </span>
+                        <svg class="w-5 h-5 ml-2 transform transition-transform group-hover:text-blue-600" id="reportChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </h2>
-                    <div class="flex gap-2">
-                        <button id="downloadMdBtn" class="px-4 py-2 text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-100 transition-colors text-sm font-medium">
-                            ⬇ Download MD
+                    <div class="flex gap-3">
+                        <button id="downloadMdBtn" class="px-4 py-2 text-slate-700 bg-white border-2 border-slate-300 rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 text-sm font-medium transform hover:scale-105 shadow-sm hover:shadow-md">
+                            📝 Download MD
                         </button>
-                        <button id="downloadPdfBtn" class="px-4 py-2 text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-100 transition-colors text-sm font-medium">
-                            🖨 Download PDF
+                        <button id="downloadPdfBtn" class="px-4 py-2 text-slate-700 bg-white border-2 border-slate-300 rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 text-sm font-medium transform hover:scale-105 shadow-sm hover:shadow-md">
+                            📄 Download PDF
                         </button>
                     </div>
                 </div>
@@ -225,7 +268,6 @@
         const inputExpanded = document.getElementById('inputExpanded');
         const inputCollapsed = document.getElementById('inputCollapsed');
         const charCount = document.getElementById('charCount');
-        const expandBtn = document.getElementById('expandBtn');
         const emptyState = document.getElementById('emptyState');
         const loadingState = document.getElementById('loadingState');
         const errorState = document.getElementById('errorState');
@@ -250,7 +292,6 @@
         
         analyzeBtn.addEventListener('click', runAnalysis);
         retryBtn.addEventListener('click', runAnalysis);
-        expandBtn.addEventListener('click', expandInput);
         downloadMdBtn.addEventListener('click', downloadMarkdown);
         downloadPdfBtn.addEventListener('click', downloadPDF);
         inputTitle.addEventListener('click', toggleInputSection);
@@ -306,7 +347,7 @@
             showState('loading');
             xmlInput.disabled = true;
             analyzeBtn.disabled = true;
-            analyzeBtn.innerHTML = '<span class="spinner inline-block w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full"></span>Analyzing...';
+            analyzeBtn.innerHTML = '<span class="flex items-center"><span class="spinner inline-block w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full"></span>Analyzing...</span>';
             
             try {
                 // Call Gemini API
@@ -366,7 +407,7 @@
                 // Reset button
                 xmlInput.disabled = false;
                 analyzeBtn.disabled = false;
-                analyzeBtn.innerHTML = 'Run Analysis';
+                analyzeBtn.innerHTML = '<span class="flex items-center"><span class="mr-2">🚀</span>Run Analysis</span>';
             }
         }
         
