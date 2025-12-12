@@ -118,7 +118,13 @@
         <!-- Input Section -->
         <div id="inputSection" class="mb-8">
             <div id="inputExpanded">
-                <h2 class="text-lg font-semibold mb-4">Process XML Input</h2>
+                <h2 class="text-lg font-semibold mb-4 cursor-pointer hover:text-blue-600 transition-colors flex items-center" id="inputTitle">
+                    <span>Process XML Input</span>
+                    <svg class="w-5 h-5 ml-2 transform transition-transform" id="inputChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </h2>
+                <div id="inputContent">
                 <textarea 
                     id="xmlInput" 
                     class="w-full h-52 p-4 border border-slate-300 rounded-lg font-['JetBrains_Mono'] text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
@@ -132,6 +138,7 @@
                     >
                         Run Analysis
                     </button>
+                </div>
                 </div>
             </div>
             
@@ -184,7 +191,12 @@
             <!-- Report Output (hidden by default) -->
             <div id="reportOutput" class="hidden">
                 <div class="p-6 flex items-center justify-between border-b border-slate-200 no-print">
-                    <h2 class="text-lg font-semibold">Analysis Report</h2>
+                    <h2 class="text-lg font-semibold cursor-pointer hover:text-blue-600 transition-colors flex items-center" id="reportTitle">
+                        <span>Analysis Report</span>
+                        <svg class="w-5 h-5 ml-2 transform transition-transform" id="reportChevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </h2>
                     <div class="flex gap-2">
                         <button id="downloadMdBtn" class="px-4 py-2 text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-100 transition-colors text-sm font-medium">
                             ⬇ Download MD
@@ -224,6 +236,11 @@
         const downloadMdBtn = document.getElementById('downloadMdBtn');
         const downloadPdfBtn = document.getElementById('downloadPdfBtn');
         const appTitle = document.getElementById('appTitle');
+        const inputTitle = document.getElementById('inputTitle');
+        const inputContent = document.getElementById('inputContent');
+        const inputChevron = document.getElementById('inputChevron');
+        const reportTitle = document.getElementById('reportTitle');
+        const reportChevron = document.getElementById('reportChevron');
         
         // Event listeners
         xmlInput.addEventListener('input', () => {
@@ -236,12 +253,16 @@
         expandBtn.addEventListener('click', expandInput);
         downloadMdBtn.addEventListener('click', downloadMarkdown);
         downloadPdfBtn.addEventListener('click', downloadPDF);
+        inputTitle.addEventListener('click', toggleInputSection);
+        reportTitle.addEventListener('click', toggleReportSection);
         
         // Functions
         function collapseInput() {
             inputExpanded.classList.add('hidden');
             inputCollapsed.classList.remove('hidden');
             charCount.textContent = currentXML.length;
+            inputContent.classList.remove('hidden');
+            inputChevron.style.transform = 'rotate(0deg)';
         }
         
         function expandInput() {
@@ -376,6 +397,28 @@
         
         function downloadPDF() {
             window.print();
+        }
+        
+        function toggleInputSection() {
+            const isVisible = !inputContent.classList.contains('hidden');
+            if (isVisible) {
+                inputContent.classList.add('hidden');
+                inputChevron.style.transform = 'rotate(-90deg)';
+            } else {
+                inputContent.classList.remove('hidden');
+                inputChevron.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        function toggleReportSection() {
+            const isVisible = !reportContent.classList.contains('hidden');
+            if (isVisible) {
+                reportContent.classList.add('hidden');
+                reportChevron.style.transform = 'rotate(-90deg)';
+            } else {
+                reportContent.classList.remove('hidden');
+                reportChevron.style.transform = 'rotate(0deg)';
+            }
         }
     </script>
 </body>
